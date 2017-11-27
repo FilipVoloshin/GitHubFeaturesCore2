@@ -1,0 +1,52 @@
+﻿@model IList<Commit>
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+    <h4 class="modal-title">Commits</h4>
+</div>
+<div id="repositorybody">
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model != null && Model.Any())
+            {
+                <div class="alert alert-success">
+                    Last ten commits of repository
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>SHA</th>
+                                <th width="35%">Commit</th>
+                                <th width="15%">Commiter</th>
+                                <th>Date of commit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var commit in Model)
+                            {
+                                <tr>
+                                    <td><a href="@commit.HtmlUrl" target="_blank">@String.Join("", commit.Sha.ToCharArray().Take(7))</a></td>
+                                    <td>@commit.PurpleCommit.Message</td>
+                                    <td>@commit.PurpleCommit.Committer.Name</td>
+                                    <td>@commit.PurpleCommit.Committer.DateOfCommit</td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    There are no branches in repository, or repository/user doesn't exist. @if (ViewBag.InnerException != null)
+                { <i>@ViewBag.InnerException</i> }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

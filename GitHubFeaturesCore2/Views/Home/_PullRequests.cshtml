@@ -1,0 +1,37 @@
+﻿@model IList<PullRequest>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+    <h4 class="modal-title">Pull requests</h4>
+</div>
+<div id="repositorybody">
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model != null && Model.Any())
+            {
+                <div class="alert alert-success">
+                    Github repository <a class="text-danger" href="@Model.FirstOrDefault().Head.Repo.HtmlUrl" target="_blank">
+                        @Model.FirstOrDefault().Head.Repo.Name
+                    </a> has @Model.Count pull requests.
+                </div>
+                <div class="col-md-12">
+                    <ol>
+                        @foreach (var pullRequest in Model)
+                        {
+                            <li><a href="@pullRequest.HtmlUrl" target="_blank">@pullRequest.Title</a></li>
+                        }
+                    </ol>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    There are no pull requests in repository, or repository/user doesn't exist. @if (ViewBag.InnerException != null)
+                { <i>@ViewBag.InnerException</i> }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

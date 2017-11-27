@@ -1,0 +1,36 @@
+﻿@model IList<Branch>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"></span></button>
+        <h4 class="modal-title">Branches</h4>
+    </div>
+    <div id="repositorybody">
+        <div class="row">
+            <div class="col-md-12">
+                @if (Model != null && Model.Any())
+            {
+                    <div class="alert alert-success">
+                        This repository has @Model.Count branches
+                    </div>
+                    <div class="col-md-10">
+                        <ol>
+                            @foreach (var branch in Model)
+                            {
+                                <li>@branch.Name</li>
+                            }
+                        </ol>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        There are no branches in repository, or repository/user doesn't exist. @if (ViewBag.InnerException != null)
+                { <i>@ViewBag.InnerException</i> }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
