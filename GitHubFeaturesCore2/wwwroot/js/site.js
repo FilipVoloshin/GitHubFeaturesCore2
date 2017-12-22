@@ -68,3 +68,45 @@ function showHideAdditionalInfo(requestType) {
 $("#request_type").change(function () {
     showHideAdditionalInfo($("#request_type").val());
 });
+
+
+//C# Code part
+
+$("#check-btn").click(function () {
+    var token = $('input[name="__RequestVerificationToken"]', $('#csharp_form')).val();
+    var dataToSend = {
+        codePart: $("#csharpcode").val()
+    };
+    var dataWithAntiforgeryToken = $.extend(dataToSend, { '__RequestVerificationToken': token });
+    $.ajax({
+        url: "/CSharpCompile/GetCodeResult",
+        type: "POST",
+        data: dataWithAntiforgeryToken,
+        success: function (data) {
+            $("#result_window_pl").html(data);
+            $("#result_window").modal('show');
+        }
+    });
+});
+
+
+//Keys settings 
+
+$(document).delegate('#csharpcode', 'keydown', function (e) {
+    var keyCode = e.keyCode || e.which;
+
+    if (keyCode == 9) {
+        e.preventDefault();
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+
+        // set textarea value to: text before caret + tab + text after caret
+        $(this).val($(this).val().substring(0, start)
+            + "\t"
+            + $(this).val().substring(end));
+
+        // put caret at right position again
+        this.selectionStart =
+            this.selectionEnd = start + 1;
+    }
+});
